@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { getAllArticles } from "../api"
+import { useParams } from "react-router-dom";
+import { getAllArticles, getArticlesByTopic } from "../api"
 import { FeedPost } from "./FeedPost"
 
 export const Newsfeed = () =>
@@ -9,46 +10,40 @@ export const Newsfeed = () =>
 
     const [modalArticle, setModalArticle] = useState();
 
+
+    const topic = useParams().slug;
+
     useEffect(() =>
     {
-        getAllArticles()
-        .then(({articles}) =>
+        if (topic)
         {
-            setArticles(articles)
-            setLoading(false);
-        });
+            getArticlesByTopic(topic)
+            .then(({articles}) =>
+            {
+                setArticles(articles);
+                setLoading(false);
+            })
+        }
+        else
+        {
+            getAllArticles()
+            .then(({articles}) =>
+            {
+                setArticles(articles)
+                setLoading(false);
+            });
+        }
     }, [isLoading])
 
 
 
     if (isLoading) return <div className="d-flex justify-content-center"><div className="spinner-border" role="status"/></div>
-
-    if (!modalArticle)
-    {
-      return <div>
-          <header>Most Popular</header>
-          <div className="container">
-                  <div className="col-8">
-                  <ul>{articles.map((article, index) =>
-                  {
-                      return <FeedPost article={article} setModalArticle={setModalArticle} key={index}/>
-                  })}</ul>
-              </div>
-          </div>
-          </div>
-    }
     
     return <div>
-        <header>Most Popular</header>
-        <div className="container">
-                <div className="col-8">
-                <ul>{articles.map((article, index) =>
-                {
-                    return <FeedPost article={article} setModalArticle={setModalArticle} key={index}/>
-                })}</ul>
-            </div>
-        </div>
-                
+        <ul className="list-group">{articles.map((article, index) =>
+        {
+            return <FeedPost article={article} setModalArticle={setModalArticle} key={index}/>
+        })}</ul>
     </div>
 
     
