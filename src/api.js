@@ -8,8 +8,20 @@ export const getAllArticles = () =>
     .then((res) => res.data)
 }
 
+export const getArticlesByTopic = (topic) =>
+{
+    return api.get(`/api/articles?topic=${topic}`)
+    .then((res) => res.data)
+}
+
 export const getUserByUsername = (username) =>
 {
     return api.get(`/api/users/${username}`)
+    .then((res) => res.data)
+}
+
+export const getAllTopics = () =>
+{
+    return api.get(`/api/topics`)
     .then((res) => res.data)
 }
