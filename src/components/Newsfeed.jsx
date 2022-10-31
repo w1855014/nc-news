@@ -40,8 +40,7 @@ export const Newsfeed = () =>
     if (isLoading) return <div className="d-flex justify-content-center"><div className="spinner-border" role="status"/></div>
     
     return <div>
-        <header>Most Popular</header>
-        <ul>{articles.map((article, index) =>
+        <ul className="list-group">{articles.map((article, index) =>
         {
             return <FeedPost article={article} setModalArticle={setModalArticle} key={index}/>
         })}</ul>

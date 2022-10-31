@@ -5,11 +5,13 @@ export const Home = () =>
 {
 
     return <div className="container">
-        <div className="col-8">
-            <Newsfeed/>
-        </div>
-        <div className="col-4">
-            <TopicList/>            
+        <div className="row">
+            <div className="col-md-8">
+                <Newsfeed/>
+            </div>
+            <div className="col-md-4">
+                <TopicList/>            
+            </div>
         </div>
     </div>
         

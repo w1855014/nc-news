@@ -19,7 +19,8 @@ export const TopicList = () =>
 
     if (isLoading) return <div className="d-flex justify-content-center"><div className="spinner-border" role="status"/></div>
 
-    return <ul>{
-        topics.map(({slug}, index) => <Link to={`/topic/${slug}`} key={index}>{slug}</Link>)
+    return <ul className="list-group">{
+        topics.map(({slug}, index) =>
+            <Link className="list-group-item" to={`/topic/${slug}`} key={index}>{slug}</Link>)
     }</ul>
 }
