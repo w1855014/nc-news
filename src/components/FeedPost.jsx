@@ -7,7 +7,7 @@ export const FeedPost = ({article, setModalArticle}) =>
 {
     const [like, setLike] = useState(false);
     const {article_id, title, author, created_at, body, comment_count, votes} = article;
-    const avatarURL = "";
+    let avatarURL = "";
 
     getUserByUsername(author)
     .then((user) =>
