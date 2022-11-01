@@ -1,5 +1,5 @@
 import { useState , useEffect, useContext } from "react";
-import { getCommentsByArticleId, postCommentByArticleId } from "../api";
+import { deleteCommentById, getCommentsByArticleId, postCommentByArticleId } from "../api";
 import { UserContext } from "../contexts/UserContext";
 import { FeedComment } from "./FeedComment";
 
@@ -24,10 +24,11 @@ export const FeedPostModal = ({article}) =>
     {
         event.preventDefault()
         const body = event.target.elements.comment.value;
-        setComments((comments) => [{body, author: username, votes: 0, created_at: Date.now()}, ...comments])
+        setComments((comments) =>
+        {
+            return [{body, author: username, votes: 0, created_at: Date.now()}, ...comments]
+        });
         postCommentByArticleId(article.article_id, body, username)
-
-
     }
 
     return <div className="modal fade" id="newsfeedModal">
@@ -41,7 +42,7 @@ export const FeedPostModal = ({article}) =>
                     <p>{article.body}</p>
                     <ul>{ isLoading
                         ? <div className="d-flex justify-content-center"><div className="spinner-border" role="status"/></div>
-                        : comments.map((comment, index) => <FeedComment comment={comment} key={index}/>)  
+                        : comments.map((comment, index) => <FeedComment comment={comment} setComments={setComments} key={index}/>)  
                     }</ul>
                 </div>
                 <div className="modal-footer">
