@@ -7,7 +7,7 @@ import { Newsfeed } from './components/Newsfeed';
 
 function App()
 {
-  const [user, setUser] = useState({username:"bob"});
+  const [user, setUser] = useState({username:"grumpy19"});
 
   return <UserContext.Provider value={user}>
     <Router>

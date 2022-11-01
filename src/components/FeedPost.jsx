@@ -18,11 +18,8 @@ export const FeedPost = ({article, setModalArticle}) =>
     const onLike = (event) =>
     {
         setLike((like) => !like);
-        // if (like) patchArticleVotesById(article_id, 1);
-        // else 
-        // {
-        //     if (votes > 0) patchArticleVotesById(article_id, -1)
-        // }
+        if (like) patchArticleVotesById(article_id, 1)
+        else patchArticleVotesById(article_id, -1);
     }
 
     const onExpand = (event) =>
@@ -35,15 +32,22 @@ export const FeedPost = ({article, setModalArticle}) =>
             <span>Posted by <a href={`/user/${author}`}>{author}</a>{`${elapsedSince(created_at)} ago`}</span>
         </div>
         <div className="card-body">
-            <h3>{title}</h3>
-            <p>{body}</p>
+            <div className="row align-items-center">
+                <div className="col-md-1">
+                    <span>{like ? votes+1 : votes}<br/>votes</span>
+                </div>
+                <div className="col-md-11">
+                    <h3>{title}</h3>
+                    <p>{body}</p>
+                </div>
+            </div>
         </div>
         <div className="card-footer">
             <button onClick={onLike}>
                 <i className={like? "bi-star-fill" : "bi-star"}/>
                 <span>Like</span>
             </button>
-            <button onClick={onExpand} data-bs-toggle="modal" data-bs-target="#newsfeedModal">
+            <button data-bs-toggle="modal" data-bs-target="#newsfeedModal" onClick={onExpand}>
                 <i className="bi-chat-square-text"/>
                 <span>{`${comment_count} comments`}</span>
             </button>

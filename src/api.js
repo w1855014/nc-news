@@ -31,3 +31,18 @@ export const getCommentsByArticleId = (article_id) =>
     return api.get(`/api/articles/${article_id}/comments`)
     .then((res) => res.data)
 }
+
+export const patchArticleVotesById = (article_id, inc_votes) =>
+{
+    return api.patch(`/api/articles/${article_id}`, {inc_votes})
+}
+
+export const patchCommentVotesById = (comment_id, inc_votes) =>
+{
+    return api.patch(`/api/comments/${comment_id}`, {inc_votes})
+}
+
+export const postCommentByArticleId = (article_id, body, author) =>
+{
+    return api.post(`api/articles/${article_id}/comments`, {body, author})
+}

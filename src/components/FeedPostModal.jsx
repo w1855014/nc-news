@@ -1,5 +1,5 @@
 import { useState , useEffect, useContext } from "react";
-import { getCommentsByArticleId } from "../api";
+import { getCommentsByArticleId, postCommentByArticleId } from "../api";
 import { UserContext } from "../contexts/UserContext";
 import { FeedComment } from "./FeedComment";
 
@@ -24,16 +24,14 @@ export const FeedPostModal = ({article}) =>
     {
         event.preventDefault()
         const body = event.target.elements.comment.value;
-        const newComment = {body, author: username}
-        setComments((comments) => [newComment, ...comments])
-
-        // postCommentByArticleId(article.article_id, newComment)
+        setComments((comments) => [{body, author: username, votes: 0, created_at: Date.now()}, ...comments])
+        postCommentByArticleId(article.article_id, body, username)
 
 
     }
 
     return <div className="modal fade" id="newsfeedModal">
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content">
                 <div className="modal-header">
                     <h5 className="modal-title">{article.title}</h5>
