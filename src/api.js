@@ -47,7 +47,7 @@ export const postCommentByArticleId = (article_id, body, author) =>
     return api.post(`api/articles/${article_id}/comments`, {body, author})
 }
 
-export const deleteCommentById = (comment_id)
+export const deleteCommentById = (comment_id) =>
 {
     return api.delete(`/api/comments/${comment_id}`)
 }
