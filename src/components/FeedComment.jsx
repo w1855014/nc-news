@@ -47,10 +47,10 @@ export const FeedComment = ({comment}) =>
                 <i className="bi-share"/>
                 <span>Share</span>
             </button>
-            {owned ? <button onClick={onDelete}>
+            {owned && <button onClick={onDelete}>
                 <i className="bi-trash"/>
                 <span>Delete</span>
-            </button> : <></>}
+            </button>}
         </div>
     </div>
 }
