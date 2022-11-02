@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { patchCommentVotesById } from "../api";
+import { deleteCommentById, patchCommentVotesById } from "../api";
 import { UserContext } from "../contexts/UserContext";
 import { elapsedSince } from "../utilities/elapsedSince";
 
-export const FeedComment = ({comment}) =>
+export const FeedComment = ({comment, setComments}) =>
 {
     const [like, setLike] = useState(false);
     const {comment_id, body, author, created_at, votes} = comment;
@@ -19,7 +19,12 @@ export const FeedComment = ({comment}) =>
 
     const onDelete = (event) =>
     {
-        
+        event.preventDefault();
+        setComments((comments) =>
+        {
+            return comments.filter((comment) => comment.comment_id !== comment_id)
+        });
+        deleteCommentById(comment_id);
     }
 
     const owned = username===author;
