@@ -31,7 +31,7 @@ export const FeedPost = ({article, setModalArticle}) =>
         <div className="card-header">
             <span>Posted by <a href={`/user/${author}`}>{author}</a>{`${elapsedSince(created_at)} ago`}</span>
         </div>
-        <div className="card-body">
+        <button className="card-body" data-bs-toggle="modal" data-bs-target="#newsfeedModal" onClick={onExpand}>
             <div className="row align-items-center">
                 <div className="col-md-1">
                     <span>{like ? votes+1 : votes}<br/>votes</span>
@@ -41,7 +41,7 @@ export const FeedPost = ({article, setModalArticle}) =>
                     <p>{body}</p>
                 </div>
             </div>
-        </div>
+        </button>
         <div className="card-footer">
             <button onClick={onLike}>
                 <i className={like? "bi-star-fill" : "bi-star"}/>
