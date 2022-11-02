@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom";
 import { getAllArticles, getArticlesByTopic } from "../api"
 import { FeedPost } from "./FeedPost"
+import { FeedPostModal } from "./FeedPostModal";
 
 export const Newsfeed = () =>
 {
@@ -40,7 +41,6 @@ export const Newsfeed = () =>
         }
     }, [isLoading, searchParams])
 
-    const validSortQueries = ["article_id", "title", "topic", "author", "body", "created_at", "votes"];
 
     const sortParams = {
         title: "Title",
@@ -81,6 +81,16 @@ export const Newsfeed = () =>
 
     if (isLoading) return <div className="d-flex justify-content-center"><div className="spinner-border" role="status"/></div>
     
+    if (!modalArticle)
+    {
+        return <div>
+            <ul className="list-group">{articles.map((article, index) =>
+            {
+                return <FeedPost article={article} setModalArticle={setModalArticle} key={index}/>
+            })}</ul>
+        </div>
+    }
+
     return <div>
         <div className="container">
             <div className="row">
@@ -123,6 +133,7 @@ export const Newsfeed = () =>
                 return <FeedPost article={article} setModalArticle={setModalArticle} key={index}/>
             })}
         </ul>
+        <FeedPostModal article={modalArticle}/>
     </div>
 
     

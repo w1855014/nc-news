@@ -1,43 +1,39 @@
-import { getUserByUsername, patchArticleVotesById } from "../api";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { patchCommentVotesById } from "../api";
+import { UserContext } from "../contexts/UserContext";
 import { elapsedSince } from "../utilities/elapsedSince";
-import { useState } from "react";
 
-export const FeedPost = ({article, setModalArticle}) =>
+export const FeedComment = ({comment}) =>
 {
     const [like, setLike] = useState(false);
-    const {article_id, title, author, created_at, body, comment_count, votes} = article;
-    let avatarURL = "";
+    const {comment_id, body, author, created_at, votes} = comment;
 
-    getUserByUsername(author)
-    .then((user) =>
-    {
-        avatarURL = user.avatar_url;
-    })
+    const {username} = useContext(UserContext);
 
     const onLike = (event) =>
     {
         setLike((like) => !like);
-        if (like) patchArticleVotesById(article_id, 1)
-        else patchArticleVotesById(article_id, -1);
+        if (like) patchCommentVotesById(comment_id, 1)
+        else patchCommentVotesById(comment_id, -1);
     }
 
-    const onExpand = (event) =>
+    const onDelete = (event) =>
     {
-        setModalArticle(article)
+        
     }
 
-    return <div className="card bg-light">
+    const owned = username===author;
+
+    return <div className="card">
         <div className="card-header">
             <span>Posted by <a href={`/user/${author}`}>{author}</a>{`${elapsedSince(created_at)} ago`}</span>
         </div>
         <div className="card-body">
             <div className="row align-items-center">
-                <div className="col-md-1">
+                <div className="col-md-2">
                     <span>{like ? votes+1 : votes}<br/>votes</span>
                 </div>
-                <div className="col-md-11">
-                    <h3>{title}</h3>
+                <div className="col-md-10">
                     <p>{body}</p>
                 </div>
             </div>
@@ -47,14 +43,14 @@ export const FeedPost = ({article, setModalArticle}) =>
                 <i className={like? "bi-star-fill" : "bi-star"}/>
                 <span>Like</span>
             </button>
-            <button data-bs-toggle="modal" data-bs-target="#newsfeedModal" onClick={onExpand}>
-                <i className="bi-chat-square-text"/>
-                <span>{`${comment_count} comments`}</span>
-            </button>
             <button onClick={() => {}}>
                 <i className="bi-share"/>
                 <span>Share</span>
             </button>
+            {owned ? <button onClick={onDelete}>
+                <i className="bi-trash"/>
+                <span>Delete</span>
+            </button> : <></>}
         </div>
     </div>
 }
